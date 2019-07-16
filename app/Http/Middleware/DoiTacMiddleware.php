@@ -1,0 +1,32 @@
+<?php
+
+namespace App\Http\Middleware;
+
+use Closure;
+use Auth;
+
+class DoiTacMiddleware
+{
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return mixed
+     */
+    public function handle($request, Closure $next)
+    {
+        if(Auth::check())
+        {
+            $User = Auth::User();
+
+            if($User->role == 1)
+                 return $next($request);
+            else
+                 return redirect()->route('doitaclogin');   
+        }
+        else 
+            return redirect()->route('doitaclogin'); 
+        
+    }
+}
